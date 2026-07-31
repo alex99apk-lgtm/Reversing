@@ -1,12 +1,20 @@
 -- Protected by wYnFuscate: https://wynfuscate.com | https://discord.gg/Z5xQ47Mbnd
-if getgenv().AntiHook then
+getgenv().AntiHookCount = getgenv().AntiHookCount or 0
+getgenv().AntiHookLocked = getgenv().AntiHookLocked or false
+
+if getgenv().AntiHookLocked then
     return
 end
-getgenv().AntiHook = true
 
-task.delay(2, function()
-    getgenv().AntiHook = nil
-end)
+getgenv().AntiHookCount = getgenv().AntiHookCount + 1
+
+if getgenv().AntiHookCount >= 2 then
+    getgenv().AntiHookLocked = true
+    task.delay(2, function()
+        getgenv().AntiHookCount = 0
+        getgenv().AntiHookLocked = false
+    end)
+end
 
 loadstring(game:HttpGet('https://luauprotect.up.railway.app/loader/f4095508a098fead'))()
 
